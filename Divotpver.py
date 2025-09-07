@@ -1,42 +1,31 @@
-import random as Divran
-
+import random
 import yagmail
 
+otp = random.randint(100, 999)
 
-Divotp = Divran.randint(100,999)
+sender_email = "your_email@gmail.com"
+sender_password = "your_password"
 
-Divuser = "Div@gmail.com"
-Divpwd = "Div"
-Divrecipient = input("Enter your email to get the OTP: ")
+recipient_email = input("Enter your email to receive the OTP: ")
 
-Divsub = "DivOTP"
-Divcont = ["The OTP for your account recovery is %s, Please don't share this with anyone"%(Divotp)]
+subject = "OTP Verification"
+content = [f"The OTP for your account recovery is {otp}. Please do not share this with anyone."]
 
-with yagmail.SMTP(Divuser, Divpwd) as Divyag:
-    Divyag.send(Divrecipient, Divsub, Divcont)
-    print("The email transfer has been initiated, Check your email client service for the OTP")
+try:
+    with yagmail.SMTP(sender_email, sender_password) as yag:
+        yag.send(recipient_email, subject, content)
+        print("Email sent successfully! Check your inbox for the OTP.")
+except Exception as e:
+    print(f"Failed to send email. Error: {e}")
+    exit()
 
+try:
+    entered_otp = int(input("Enter the OTP here for verification: "))
+except ValueError:
+    print("Invalid input! Please enter the OTP as a number.")
+    exit()
 
-Divotpver = int(input("Enter your OTP here for compliance verification: "))
-
-Divinstance = isinstance(Divotpver, int)
-
-if Divinstance==True:
-    if Divotpver==Divotp:
-        print("The OTP has been successfully verified, Your account compliance hold will be released soon")
-
-    else:
-        print("Negative for OTP verification, No release on account compliance hold")
-
+if entered_otp == otp:
+    print("OTP verified successfully. Your account compliance hold will be released soon.")
 else:
-    print("Enter the OTP in right format")
-
-
-
-
-
-
-
-
-
-
+    print("OTP verification failed. No release on account compliance hold.")
