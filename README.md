@@ -1,2 +1,2 @@
-# DivComplianceAuth
-Integrity checkup
+# OTP Generation and Verification program
+
